@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Third Pole Health — Care that starts with being understood</title>
+<meta name="description" content="Third Pole Health is building AI-assisted health access for Nepal: triage in Nepali, care for migrant workers abroad, and a bridge to Nepali doctors worldwide." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Mukta:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#F3F1EC;
+    --paper-2:#EAE7E0;
+    --ink:#121412;
+    --ink-2:#1C1F1C;
+    --muted:#6A6D66;
+    --line:rgba(18,20,18,.10);
+    --accent:#D4512B;      /* rhododendron */
+    --accent-soft:#F6DED4;
+    --radius:22px;
+    --sans:"Inter Tight", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --serif:"Instrument Serif", Georgia, serif;
+    --mono:"JetBrains Mono", ui-monospace, monospace;
+    --np:"Mukta", "Inter Tight", sans-serif;
+    --ease:cubic-bezier(.2,.7,.1,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+  ::selection{background:var(--accent);color:#fff}
+  .wrap{width:min(1180px,100% - 40px);margin-inline:auto}
+  em.s{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.01em}
+
+  /* grain */
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  /* ---------- NAV ---------- */
+  .nav{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:50;width:min(1180px,100% - 24px);
+    display:flex;align-items:center;justify-content:space-between;padding:8px 8px 8px 18px;border-radius:999px;
+    transition:background .35s var(--ease),box-shadow .35s var(--ease),backdrop-filter .35s}
+  .nav.scrolled{background:rgba(243,241,236,.72);backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px) saturate(1.4);box-shadow:0 0 0 1px var(--line),0 8px 30px -12px rgba(0,0,0,.15)}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:600;letter-spacing:-.02em;font-size:15px}
+  .brand svg{width:26px;height:26px}
+  .nav-links{display:flex;gap:4px;font-size:14px;color:var(--muted)}
+  .nav-links a{padding:8px 14px;border-radius:999px;transition:color .2s,background .2s}
+  .nav-links a:hover{color:var(--ink);background:rgba(18,20,18,.05)}
+  .btn{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 18px;border-radius:999px;font-size:14px;font-weight:500;transition:transform .25s var(--ease),background .25s,box-shadow .25s;white-space:nowrap}
+  .btn-dark{background:var(--ink);color:var(--paper)}
+  .btn-dark:hover{transform:translateY(-1px);box-shadow:0 10px 24px -10px rgba(0,0,0,.5)}
+  .btn-ghost{box-shadow:inset 0 0 0 1px var(--line)}
+  .btn-ghost:hover{background:rgba(18,20,18,.05)}
+  .btn .arr{transition:transform .25s var(--ease)}
+  .btn:hover .arr{transform:translateX(3px)}
+  .menu-btn{display:none;width:42px;height:42px;border-radius:50%;background:var(--ink);position:relative}
+  .menu-btn span{position:absolute;left:13px;right:13px;height:1.5px;background:var(--paper);transition:transform .3s var(--ease),top .3s var(--ease)}
+  .menu-btn span:nth-child(1){top:17px}.menu-btn span:nth-child(2){top:24px}
+  .menu-open .menu-btn span:nth-child(1){top:20.5px;transform:rotate(45deg)}
+  .menu-open .menu-btn span:nth-child(2){top:20.5px;transform:rotate(-45deg)}
+  .mobile-menu{position:fixed;inset:0;z-index:40;background:var(--paper);display:flex;flex-direction:column;justify-content:center;padding:0 28px;gap:6px;
+    opacity:0;pointer-events:none;transition:opacity .35s var(--ease)}
+  .mobile-menu a{font-size:40px;letter-spacing:-.03em;transform:translateY(12px);transition:transform .45s var(--ease)}
+  .menu-open .mobile-menu{opacity:1;pointer-events:auto}
+  .menu-open .mobile-menu a{transform:none}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:150px 0 28px}
+  .pill{display:inline-flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);padding:6px 14px 6px 8px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--line);background:rgba(255,255,255,.4)}
+  .pill i{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft);margin-left:4px;animation:pulse 2.4s infinite}
+  @keyframes pulse{50%{box-shadow:0 0 0 7px rgba(212,81,43,.08)}}
+  h1{font-size:clamp(46px,8.2vw,112px);line-height:.94;letter-spacing:-.045em;font-weight:500;margin:26px 0 0;max-width:12ch}
+  h1 em.s{font-size:1.06em;letter-spacing:-.02em}
+  .hero-row{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;margin-top:34px;flex-wrap:wrap}
+  .hero-row p{max-width:470px;color:var(--muted);font-size:18px;line-height:1.5}
+  .hero-row p b{color:var(--ink);font-weight:500}
+  .cta{display:flex;gap:10px}
+
+  /* stage */
+  .stage{position:relative;margin-top:56px;border-radius:28px;overflow:hidden;background:var(--ink);height:clamp(520px,64vw,640px);isolation:isolate}
+  .stage canvas{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
+  .stage-meta{position:absolute;left:28px;bottom:26px;color:rgba(243,241,236,.55);font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;display:flex;flex-direction:column;gap:4px}
+  .stage-meta b{color:var(--paper);font-weight:500}
+  .stage-tag{position:absolute;left:28px;top:26px;color:var(--paper);font-family:var(--serif);font-style:italic;font-size:26px;letter-spacing:-.01em;opacity:.9}
+
+  /* chat demo */
+  .chat{position:absolute;right:28px;top:50%;transform:translateY(-50%);width:min(380px,calc(100% - 40px));
+    background:rgba(243,241,236,.96);backdrop-filter:blur(10px);border-radius:20px;padding:14px;
+    box-shadow:0 30px 80px -20px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.08)}
+  .chat-top{display:flex;align-items:center;justify-content:space-between;padding:4px 6px 12px;border-bottom:1px solid var(--line)}
+  .chat-top .who{display:flex;align-items:center;gap:10px;font-size:13.5px;font-weight:500}
+  .avatar{width:30px;height:30px;border-radius:50%;background:var(--ink);display:grid;place-items:center}
+  .avatar svg{width:16px;height:16px}
+  .chat-top small{display:block;color:var(--muted);font-weight:400;font-size:11.5px}
+  .lang{font-family:var(--mono);font-size:10.5px;padding:4px 8px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--line);color:var(--muted)}
+  .msgs{min-height:288px;padding:14px 4px 4px;display:flex;flex-direction:column;gap:10px}
+  .msg{max-width:86%;padding:10px 13px;border-radius:16px;font-size:14px;line-height:1.45;opacity:0;transform:translateY(6px);transition:opacity .4s var(--ease),transform .4s var(--ease)}
+  .msg.in{opacity:1;transform:none}
+  .msg .np{font-family:var(--np);font-size:15px;display:block}
+  .msg .en{display:block;font-size:11.5px;margin-top:4px;opacity:.6}
+  .msg.user{align-self:flex-end;background:var(--ink);color:var(--paper);border-bottom-right-radius:5px}
+  .msg.bot{align-self:flex-start;background:#fff;box-shadow:0 0 0 1px var(--line);border-bottom-left-radius:5px}
+  .typing{display:inline-flex;gap:4px;padding:2px 0}
+  .typing span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:blink 1s infinite}
+  .typing span:nth-child(2){animation-delay:.15s}.typing span:nth-child(3){animation-delay:.3s}
+  @keyframes blink{0%,100%{opacity:.25}50%{opacity:1}}
+  .result{align-self:stretch;max-width:100%;background:var(--accent-soft);box-shadow:none;border-radius:14px;padding:12px 13px}
+  .result .row{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-family:var(--mono);color:#8a3519;text-transform:uppercase;letter-spacing:.04em}
+  .meter{display:flex;gap:3px;margin:9px 0 8px}
+  .meter i{flex:1;height:5px;border-radius:3px;background:rgba(212,81,43,.18)}
+  .meter i.on{background:var(--accent)}
+  .result p{font-size:13.5px;color:var(--ink)}
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:120px 0 0}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:10px}
+  .eyebrow::before{content:"";width:18px;height:1px;background:currentColor}
+  h2{font-size:clamp(34px,5vw,62px);line-height:1;letter-spacing:-.04em;font-weight:500;margin-top:18px;max-width:16ch}
+  .sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap}
+  .sec-head p{max-width:380px;color:var(--muted)}
+
+  /* tabs */
+  .tabs{margin-top:52px;display:grid;grid-template-columns:300px 1fr;gap:20px}
+  .tablist{display:flex;flex-direction:column;gap:4px}
+  .tab{text-align:left;padding:18px 20px;border-radius:16px;display:flex;justify-content:space-between;align-items:center;font-size:17px;letter-spacing:-.01em;color:var(--muted);transition:background .3s,color .3s}
+  .tab .n{font-family:var(--mono);font-size:11px;opacity:.7}
+  .tab:hover{color:var(--ink)}
+  .tab[aria-selected="true"]{background:#fff;color:var(--ink);box-shadow:0 0 0 1px var(--line)}
+  .panels{position:relative;background:#fff;border-radius:var(--radius);box-shadow:0 0 0 1px var(--line);min-height:420px;overflow:hidden}
+  .panel{position:absolute;inset:0;padding:40px;display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:center;
+    opacity:0;transform:translateY(10px);pointer-events:none;transition:opacity .45s var(--ease),transform .45s var(--ease)}
+  .panel.active{opacity:1;transform:none;pointer-events:auto;position:relative}
+  .panel h3{font-size:30px;letter-spacing:-.03em;font-weight:500;line-height:1.08}
+  .panel p{color:var(--muted);margin-top:14px}
+  .panel ul{list-style:none;margin-top:22px;display:flex;flex-direction:column;gap:10px}
+  .panel li{display:flex;gap:10px;font-size:14.5px}
+  .panel li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-top:8px}
+  .glimpse{background:var(--paper);border-radius:16px;padding:22px;font-size:13.5px;box-shadow:inset 0 0 0 1px var(--line)}
+  .glimpse .lbl{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:14px;display:block}
+  .scale{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+  .scale div{border-radius:10px;padding:12px 10px;background:#fff;box-shadow:0 0 0 1px var(--line);font-size:12.5px}
+  .scale div b{display:block;font-family:var(--np);font-weight:500;font-size:15px}
+  .scale div.hl{background:var(--ink);color:var(--paper)}
+  .route{display:flex;align-items:center;gap:12px}
+  .route .pt{font-weight:500}
+  .route .pt small{display:block;color:var(--muted);font-weight:400;font-size:11.5px}
+  .route .ln{flex:1;height:1px;background:repeating-linear-gradient(90deg,var(--ink) 0 4px,transparent 4px 8px);position:relative}
+  .route .ln::after{content:"";position:absolute;top:-3px;width:7px;height:7px;border-radius:50%;background:var(--accent);animation:travel 3.5s var(--ease) infinite}
+  @keyframes travel{from{left:0}to{left:calc(100% - 7px)}}
+  .kv{display:flex;flex-direction:column;margin-top:18px}
+  .kv div{display:flex;justify-content:space-between;padding:9px 0;border-top:1px solid var(--line)}
+  .kv span:first-child{color:var(--muted)}
+  .doc{display:flex;gap:12px;align-items:center;background:#fff;border-radius:12px;padding:12px;box-shadow:0 0 0 1px var(--line)}
+  .doc + .doc{margin-top:8px}
+  .doc .dot{width:36px;height:36px;border-radius:50%;background:var(--paper-2);display:grid;place-items:center;font-family:var(--mono);font-size:11px}
+  .doc .t{flex:1}.doc .t small{display:block;color:var(--muted);font-size:11.5px}
+  .doc .st{font-family:var(--mono);font-size:10.5px;padding:4px 8px;border-radius:999px;background:#E6EFE6;color:#2D5B33}
+  .check{display:flex;flex-direction:column;gap:8px}
+  .check label{display:flex;gap:10px;align-items:center;background:#fff;padding:10px 12px;border-radius:10px;box-shadow:0 0 0 1px var(--line);cursor:pointer;user-select:none}
+  .check input{appearance:none;width:16px;height:16px;border-radius:5px;box-shadow:inset 0 0 0 1.5px rgba(18,20,18,.3);display:grid;place-items:center;transition:background .2s;flex:none;cursor:pointer}
+  .check input:checked{background:var(--ink);box-shadow:none}
+  .check input:checked::after{content:"";width:8px;height:4px;border:1.5px solid var(--paper);border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)}
+  .check input:checked + span{color:var(--muted);text-decoration:line-through}
+
+  /* how — dark */
+  .how{margin-top:120px;background:var(--ink);color:var(--paper);border-radius:32px;padding:100px 0 90px}
+  .how .eyebrow{color:rgba(243,241,236,.5)}
+  .how .sec-head p{color:rgba(243,241,236,.6)}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:60px;counter-reset:s}
+  .step{position:relative;padding:28px;border-radius:var(--radius);background:var(--ink-2);box-shadow:inset 0 0 0 1px rgba(255,255,255,.07);min-height:280px;display:flex;flex-direction:column;transition:background .35s var(--ease),transform .35s var(--ease)}
+  .step:hover{background:#242824;transform:translateY(-4px)}
+  .step .k{font-family:var(--mono);font-size:11px;color:rgba(243,241,236,.45);letter-spacing:.06em}
+  .step h3{font-family:var(--serif);font-weight:400;font-style:italic;font-size:44px;letter-spacing:-.01em;margin-top:auto;line-height:1}
+  .step p{color:rgba(243,241,236,.62);font-size:15px;margin-top:12px}
+  .step .ic{position:absolute;top:24px;right:24px;width:40px;height:40px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);display:grid;place-items:center}
+  .step .ic svg{width:18px;height:18px;stroke:var(--paper);fill:none;stroke-width:1.5}
+  .principles{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;margin-top:70px;padding-top:34px;border-top:1px solid rgba(255,255,255,.1)}
+  .principles h4{font-weight:500;font-size:16px;display:flex;gap:10px;align-items:center}
+  .principles h4::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent)}
+  .principles p{color:rgba(243,241,236,.55);font-size:14.5px;margin-top:8px}
+
+  /* faq */
+  .faq-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:60px;align-items:start}
+  .faq{border-top:1px solid var(--line)}
+  .qa{border-bottom:1px solid var(--line)}
+  .qa button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:24px 0;text-align:left;font-size:19px;letter-spacing:-.015em}
+  .qa .pm{flex:none;width:28px;height:28px;border-radius:50%;box-shadow:inset 0 0 0 1px var(--line);position:relative;transition:background .3s,transform .4s var(--ease)}
+  .qa .pm::before,.qa .pm::after{content:"";position:absolute;left:50%;top:50%;width:10px;height:1.5px;background:var(--ink);transform:translate(-50%,-50%);transition:background .3s}
+  .qa .pm::after{transform:translate(-50%,-50%) rotate(90deg)}
+  .qa.open .pm{background:var(--ink);transform:rotate(45deg)}
+  .qa.open .pm::before,.qa.open .pm::after{background:var(--paper)}
+  .qa .a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s var(--ease)}
+  .qa.open .a{grid-template-rows:1fr}
+  .qa .a > div{overflow:hidden}
+  .qa .a p{color:var(--muted);padding:0 50px 24px 0;max-width:620px}
+
+  /* early access */
+  .ea{margin-top:120px;border-radius:32px;background:#fff;box-shadow:0 0 0 1px var(--line);padding:64px;display:grid;grid-template-columns:1fr 1fr;gap:60px;position:relative;overflow:hidden}
+  .ea h2{max-width:11ch}
+  .ea .lead{color:var(--muted);margin-top:18px;max-width:380px}
+  form{display:flex;flex-direction:column;gap:14px;position:relative}
+  .field{display:flex;flex-direction:column;gap:6px}
+  .field label{font-size:13px;color:var(--muted)}
+  .field input{height:50px;border-radius:14px;border:0;background:var(--paper);box-shadow:inset 0 0 0 1px var(--line);padding:0 16px;font:inherit;font-size:15px;outline:none;transition:box-shadow .2s,background .2s}
+  .field input:focus{background:#fff;box-shadow:inset 0 0 0 1.5px var(--ink)}
+  .field.err input{box-shadow:inset 0 0 0 1.5px var(--accent)}
+  .field .msg-err{font-size:12px;color:var(--accent);height:0;overflow:hidden;transition:height .2s}
+  .field.err .msg-err{height:16px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{padding:9px 14px;border-radius:999px;font-size:13.5px;box-shadow:inset 0 0 0 1px var(--line);background:var(--paper);transition:background .2s,color .2s,box-shadow .2s}
+  .chip:hover{box-shadow:inset 0 0 0 1px rgba(18,20,18,.3)}
+  .chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);box-shadow:none}
+  form .btn{height:52px;justify-content:center;margin-top:6px;font-size:15px}
+  .btn[disabled]{opacity:.6;pointer-events:none}
+  .done{position:absolute;inset:0;background:#fff;display:flex;flex-direction:column;justify-content:center;gap:12px;opacity:0;pointer-events:none;transition:opacity .4s var(--ease)}
+  .done.show{opacity:1;pointer-events:auto}
+  .done .tick{width:52px;height:52px;border-radius:50%;background:var(--ink);display:grid;place-items:center}
+  .done .tick svg{width:22px;height:22px;stroke:var(--paper);stroke-width:2;fill:none;stroke-dasharray:30;stroke-dashoffset:30}
+  .done.show .tick svg{animation:draw .6s .15s var(--ease) forwards}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  .done h3{font-size:28px;letter-spacing:-.03em;font-weight:500}
+  .done p{color:var(--muted)}
+  .done button{align-self:flex-start;font-size:14px;text-decoration:underline;text-underline-offset:3px;color:var(--muted)}
+
+  /* footer */
+  footer{padding:110px 0 30px}
+  .big{font-size:clamp(52px,12.4vw,180px);letter-spacing:-.06em;line-height:.85;font-weight:500;white-space:nowrap}
+  .big em.s{letter-spacing:-.03em}
+  .foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:40px;padding-top:22px;border-top:1px solid var(--line);font-size:13.5px;color:var(--muted)}
+  .foot nav{display:flex;gap:22px}
+  .foot a:hover{color:var(--ink)}
+
+  /* reveal */
+  .rv{opacity:0;transform:translateY(22px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+  .rv.in{opacity:1;transform:none}
+  .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:960px){
+    .tabs{grid-template-columns:1fr}
+    .tablist{flex-direction:row;overflow-x:auto;scrollbar-width:none;gap:6px}
+    .tablist::-webkit-scrollbar{display:none}
+    .tab{flex:none;gap:14px;padding:12px 16px;font-size:15px}
+    .panel{grid-template-columns:1fr;padding:28px}
+    .steps,.principles{grid-template-columns:1fr}
+    .step{min-height:220px}
+    .faq-grid,.ea{grid-template-columns:1fr;gap:36px}
+    .ea{padding:36px 24px}
+  }
+  @media (max-width:760px){
+    .nav-links,.nav .btn-dark{display:none}
+    .menu-btn{display:block}
+    .hero{padding-top:120px}
+    .hero-row p{font-size:16.5px}
+    .stage{height:auto;padding:84px 14px 92px}
+    .chat{position:relative;right:auto;top:auto;transform:none;width:100%}
+    .stage-tag{left:20px;top:22px;font-size:22px}
+    .stage-meta{left:20px;bottom:22px}
+    .how{border-radius:24px;padding:72px 0 64px}
+    section{padding-top:90px}
+    .qa button{font-size:17px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .rv{opacity:1;transform:none}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav" id="nav">
+  <a href="#top" class="brand" aria-label="Third Pole Health home">
+    <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <path d="M3 25 L12 11 L17 18 L21 13 L29 25 Z" fill="#121412"/>
+      <path d="M12 11 L14.6 15 L12.8 14.2 L11 15.6 Z" fill="#F3F1EC"/>
+      <circle cx="24" cy="7" r="2.4" fill="#D4512B"/>
+    </svg>
+    Third Pole Health
+  </a>
+  <nav class="nav-links" aria-label="Primary">
+    <a href="#what">What we’re building</a>
+    <a href="#how">How it works</a>
+    <a href="#faq">FAQ</a>
+  </nav>
+  <div style="display:flex;gap:8px;align-items:center">
+    <a href="#access" class="btn btn-dark">Early access <span class="arr">→</span></a>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <a href="#what">What we’re building</a>
+  <a href="#how">How it works</a>
+  <a href="#faq">FAQ</a>
+  <a href="#access">Early access</a>
+</div>
+
+<main id="top">
+  <!-- HERO -->
+  <div class="hero wrap">
+    <span class="pill rv"><i></i>In development · Lalitpur, Nepal</span>
+    <h1 class="rv d1">Good care starts with <em class="s">being understood.</em></h1>
+    <div class="hero-row">
+      <p class="rv d2">Third Pole Health is building AI-assisted health access for Nepal — <b>triage in Nepali</b>, support for <b>workers abroad</b>, and a bridge to <b>Nepali doctors around the world</b>.</p>
+      <div class="cta rv d3">
+        <a href="#access" class="btn btn-dark">Join early access <span class="arr">→</span></a>
+        <a href="#how" class="btn btn-ghost">How it works</a>
+      </div>
+    </div>
+
+    <div class="stage rv d2" id="stage">
+      <canvas id="ridges" aria-hidden="true"></canvas>
+      <div class="stage-tag">A glimpse, not the whole thing.</div>
+
+      <div class="chat" role="region" aria-label="Preview of a triage conversation in Nepali">
+        <div class="chat-top">
+          <div class="who">
+            <div class="avatar"><svg viewBox="0 0 32 32"><path d="M3 25 L12 11 L17 18 L21 13 L29 25 Z" fill="#F3F1EC"/></svg></div>
+            <div>Triage assistant<small>Clinician-reviewed</small></div>
+          </div>
+          <span class="lang">नेपाली</span>
+        </div>
+        <div class="msgs" id="msgs" aria-live="polite"></div>
+      </div>
+
+      <div class="stage-meta">
+        <span><b>Preview</b> · illustrative conversation</span>
+        <span>27.7°N 85.3°E</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHAT -->
+  <section id="what">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="eyebrow rv">What we’re building</span>
+          <h2 class="rv d1">Four pieces of one <em class="s">quiet</em> system.</h2>
+        </div>
+        <p class="rv d2">Each one solves a gap we see every day in how Nepalis reach care — at home, in the hills, and far from home.</p>
+      </div>
+
+      <div class="tabs rv d2">
+        <div class="tablist" role="tablist" aria-label="Products">
+          <button class="tab" role="tab" id="t0" aria-controls="p0" aria-selected="true">Triage in Nepali <span class="n">01</span></button>
+          <button class="tab" role="tab" id="t1" aria-controls="p1" aria-selected="false" tabindex="-1">Workers abroad <span class="n">02</span></button>
+          <button class="tab" role="tab" id="t2" aria-controls="p2" aria-selected="false" tabindex="-1">Diaspora doctors <span class="n">03</span></button>
+          <button class="tab" role="tab" id="t3" aria-controls="p3" aria-selected="false" tabindex="-1">Community health <span class="n">04</span></button>
+        </div>
+
+        <div class="panels">
+          <div class="panel active" role="tabpanel" id="p0" aria-labelledby="t0">
+            <div>
+              <h3>A first conversation, in the language you think in.</h3>
+              <p>Describe what’s wrong by voice or text. The assistant asks the follow-up questions a doctor would, then tells you how urgent it is and where to go.</p>
+              <ul><li>Nepali first, with English when you want it</li><li>Built to flag red-flag symptoms early</li><li>Every pathway reviewed by clinicians</li></ul>
+            </div>
+            <div class="glimpse">
+              <span class="lbl">Urgency output</span>
+              <div class="scale">
+                <div><b>घरमै</b>Self-care</div>
+                <div class="hl"><b>आज</b>See today</div>
+                <div><b>चाँडै</b>Urgent</div>
+                <div><b>तुरुन्त</b>Emergency</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel" role="tabpanel" id="p1" aria-labelledby="t1" hidden>
+            <div>
+              <h3>Care that travels with the people who travel for work.</h3>
+              <p>For Nepalis working in the Gulf, Malaysia and beyond — a place to ask questions, keep records, and stay connected to family and doctors back home.</p>
+              <ul><li>Health records that follow you across borders</li><li>Consults timed to your shift, not ours</li><li>Family at home stays in the loop</li></ul>
+            </div>
+            <div class="glimpse">
+              <span class="lbl">One record, two places</span>
+              <div class="route">
+                <div class="pt">Doha<small>Worker</small></div>
+                <div class="ln"></div>
+                <div class="pt" style="text-align:right">Dhulikhel<small>Family &amp; doctor</small></div>
+              </div>
+              <div class="kv">
+                <div><span>Language</span><span>Nepali</span></div>
+                <div><span>Consult window</span><span>After shift</span></div>
+                <div><span>Records</span><span>Shared with consent</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel" role="tabpanel" id="p2" aria-labelledby="t2" hidden>
+            <div>
+              <h3>Nepal’s doctors abroad, a consult away.</h3>
+              <p>Thousands of Nepali clinicians practise overseas. We’re building the network that lets them give time back — specialist second opinions, follow-ups and teaching.</p>
+              <ul><li>Verified, licensed clinicians only</li><li>Specialist access outside Kathmandu</li><li>Time zones turned into a feature</li></ul>
+            </div>
+            <div class="glimpse">
+              <span class="lbl">Available tonight (NPT)</span>
+              <div class="doc"><div class="dot">CA</div><div class="t">Cardiology<small>Melbourne · 7:30 pm</small></div><span class="st">Open</span></div>
+              <div class="doc"><div class="dot">EN</div><div class="t">Endocrinology<small>London · 9:00 pm</small></div><span class="st">Open</span></div>
+              <div class="doc"><div class="dot">PE</div><div class="t">Paediatrics<small>Toronto · 10:15 pm</small></div><span class="st">Open</span></div>
+            </div>
+          </div>
+
+          <div class="panel" role="tabpanel" id="p3" aria-labelledby="t3" hidden>
+            <div>
+              <h3>Lighter tools for the people already doing the work.</h3>
+              <p>Female Community Health Volunteers are the backbone of care in rural Nepal. We’re digitising their rounds — simply, offline-first, on the phones they already own.</p>
+              <ul><li>Works on low bandwidth and older phones</li><li>Visits logged in minutes, not ledgers</li><li>Escalation to a clinician when needed</li></ul>
+            </div>
+            <div class="glimpse">
+              <span class="lbl">Today’s household visit — try it</span>
+              <div class="check">
+                <label><input type="checkbox" checked><span>Antenatal check-in</span></label>
+                <label><input type="checkbox" checked><span>Child growth recorded</span></label>
+                <label><input type="checkbox"><span>Immunisation reminder sent</span></label>
+                <label><input type="checkbox"><span>Flag for clinician review</span></label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW -->
+  <div class="wrap">
+    <div class="how" id="how">
+      <div class="wrap" style="width:min(1060px,100% - 40px)">
+        <div class="sec-head">
+          <div>
+            <span class="eyebrow rv">How it works</span>
+            <h2 class="rv d1">Three steps. <em class="s">One person</em> in the loop, always.</h2>
+          </div>
+          <p class="rv d2">AI does the patient listening and the sorting. Clinicians make the calls that matter.</p>
+        </div>
+        <div class="steps">
+          <article class="step rv">
+            <span class="k">01</span>
+            <span class="ic"><svg viewBox="0 0 24 24"><path d="M4 5h16v10H9l-5 4z"/></svg></span>
+            <h3>Ask</h3>
+            <p>Speak or type in Nepali. No forms, no medical vocabulary required.</p>
+          </article>
+          <article class="step rv d1">
+            <span class="k">02</span>
+            <span class="ic"><svg viewBox="0 0 24 24"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg></span>
+            <h3>Assess</h3>
+            <p>Guided questions build a picture and an urgency level, checked against clinician-built pathways.</p>
+          </article>
+          <article class="step rv d2">
+            <span class="k">03</span>
+            <span class="ic"><svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><path d="M8.7 10.7l6.6-3.4M8.7 13.3l6.6 3.4"/></svg></span>
+            <h3>Connect</h3>
+            <p>To the right next step — self-care, a nearby facility, a health volunteer, or a doctor here or abroad.</p>
+          </article>
+        </div>
+        <div class="principles">
+          <div class="rv"><h4>Nepali first</h4><p>Designed in Nepali, not translated into it.</p></div>
+          <div class="rv d1"><h4>Clinicians decide</h4><p>AI assists. Diagnosis and treatment stay with people.</p></div>
+          <div class="rv d2"><h4>Built for real networks</h4><p>Light on data, fine on a 3G signal in the hills.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="wrap faq-grid">
+      <div>
+        <span class="eyebrow rv">Questions</span>
+        <h2 class="rv d1">The <em class="s">honest</em> answers.</h2>
+      </div>
+      <div class="faq rv d2">
+        <div class="qa open">
+          <button aria-expanded="true">Is this a replacement for a doctor?<span class="pm"></span></button>
+          <div class="a"><div><p>No. It helps you understand how urgent something is and where to go next. Diagnosis and treatment always come from a qualified clinician.</p></div></div>
+        </div>
+        <div class="qa">
+          <button aria-expanded="false">When can I use it?<span class="pm"></span></button>
+          <div class="a"><div><p>We’re in early development and piloting carefully with clinical advisors. Join the early-access list and we’ll reach out when there’s something you can try.</p></div></div>
+        </div>
+        <div class="qa">
+          <button aria-expanded="false">What happens to my health information?<span class="pm"></span></button>
+          <div class="a"><div><p>It’s yours. Records are shared only with your consent — with your doctor, your family, or no one. We collect the minimum we need to help.</p></div></div>
+        </div>
+        <div class="qa">
+          <button aria-expanded="false">I’m a Nepali doctor abroad. How can I help?<span class="pm"></span></button>
+          <div class="a"><div><p>We’d love to talk. Pick “Clinician” in the form below and tell us your specialty — we’re building the diaspora network with doctors, not just for them.</p></div></div>
+        </div>
+        <div class="qa">
+          <button aria-expanded="false">Do you work with government and partners?<span class="pm"></span></button>
+          <div class="a"><div><p>Yes. Our tools are designed to support public health programs, including community health volunteers. Choose “Partner” below to start a conversation.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EARLY ACCESS -->
+  <div class="wrap">
+    <div class="ea" id="access">
+      <div>
+        <span class="eyebrow rv">Early access</span>
+        <h2 class="rv d1">Be among the <em class="s">first</em> to try it.</h2>
+        <p class="lead rv d2">No newsletter. One message when there’s something real for you to use.</p>
+      </div>
+      <form id="form" novalidate>
+        <div class="field" id="f-name">
+          <label for="name">Name</label>
+          <input id="name" name="name" autocomplete="name" placeholder="Your name" />
+          <span class="msg-err">Please add your name.</span>
+        </div>
+        <div class="field" id="f-email">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" />
+          <span class="msg-err">That email doesn’t look right.</span>
+        </div>
+        <div class="field">
+          <label>I’m a…</label>
+          <div class="chips" id="chips">
+            <button type="button" class="chip" aria-pressed="true">Patient or family</button>
+            <button type="button" class="chip" aria-pressed="false">Worker abroad</button>
+            <button type="button" class="chip" aria-pressed="false">Clinician</button>
+            <button type="button" class="chip" aria-pressed="false">Health volunteer</button>
+            <button type="button" class="chip" aria-pressed="false">Partner</button>
+          </div>
+        </div>
+        <button class="btn btn-dark" type="submit" id="submit">Request access <span class="arr">→</span></button>
+
+        <div class="done" id="done" aria-live="polite">
+          <div class="tick"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+          <h3>धन्यवाद, <span id="doneName"></span>.</h3>
+          <p>You’re on the list. We’ll be in touch when there’s something real to try.</p>
+          <button type="button" id="reset">Add someone else</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="big rv">Third Pole <em class="s">Health</em></div>
+    <div class="foot">
+      <span>© <span id="yr"></span> Third Pole Health · Lalitpur, Nepal · An Eydean venture</span>
+      <nav aria-label="Footer">
+        <a href="#what">Product</a>
+        <a href="#how">How it works</a>
+        <a href="mailto:hello@thirdpolehealth.com">hello@thirdpolehealth.com</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  /* nav state + mobile menu */
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', scrollY > 20);
+  addEventListener('scroll', onScroll, {passive:true}); onScroll();
+  const menuBtn = document.getElementById('menuBtn'), mm = document.getElementById('mobileMenu');
+  const setMenu = open => {
+    document.body.classList.toggle('menu-open', open);
+    menuBtn.setAttribute('aria-expanded', open); mm.setAttribute('aria-hidden', !open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  };
+  menuBtn.addEventListener('click', () => setMenu(!document.body.classList.contains('menu-open')));
+  mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+  addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+
+  /* reveal on scroll */
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }), {threshold:.12, rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+  /* ridge-line Himalaya */
+  const cv = document.getElementById('ridges'), ctx = cv.getContext('2d');
+  let W, H, dpr, visible = true;
+  const size = () => { dpr = Math.min(devicePixelRatio || 1, 2); W = cv.clientWidth; H = cv.clientHeight; cv.width = W*dpr; cv.height = H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); };
+  const g = (x, m, s) => Math.exp(-((x-m)**2)/(2*s*s));
+  const draw = t => {
+    ctx.clearRect(0,0,W,H);
+    const lines = W < 700 ? 26 : 38, top = H*.30, gap = (H*.78 - top)/lines;
+    const narrow = W < 760;
+    for (let i = 0; i < lines; i++){
+      const y0 = top + i*gap, f = i/lines, amp = H*(.15 + .27*f);
+      ctx.beginPath(); ctx.moveTo(0, H);
+      for (let x = 0; x <= W + 4; x += 4){
+        const p = x/W;
+        const shift = narrow ? 0 : -.08;
+        const peak = g(p,.30+shift,.07)*1.0 + g(p,.44+shift,.05)*1.25 + g(p,.58+shift,.09)*.75 + g(p,.16+shift,.08)*.45 + g(p,.85,.12)*.35;
+        const n = Math.sin(p*38 + i*.9 + t*.0006)*.04 + Math.sin(p*91 - i*1.7 + t*.0011)*.022 + Math.sin(p*13 + i*.3 - t*.0004)*.03;
+        const y = y0 - amp*peak*(1 + n*3) - amp*n*.4;
+        ctx.lineTo(x, y);
+      }
+      ctx.lineTo(W, H); ctx.closePath();
+      ctx.fillStyle = '#121412'; ctx.fill();
+      ctx.strokeStyle = `rgba(243,241,236,${.12 + .5*f})`; ctx.lineWidth = 1; ctx.stroke();
+    }
+  };
+  const loop = t => { if (visible) draw(t); if (!reduce) requestAnimationFrame(loop); };
+  size(); addEventListener('resize', () => { size(); draw(performance.now()); });
+  new IntersectionObserver(([e]) => visible = e.isIntersecting).observe(cv);
+  requestAnimationFrame(loop);
+
+  /* chat demo */
+  const box = document.getElementById('msgs');
+  const script = [
+    {who:'user', np:'मलाई तीन दिनदेखि ज्वरो र टाउको दुखेको छ।', en:'I’ve had a fever and headache for three days.'},
+    {who:'bot',  np:'कति डिग्री ज्वरो छ? घाँटी अररो हुने वा बान्ता भएको छ?', en:'How high is the fever? Any stiff neck or vomiting?'},
+    {who:'user', np:'१०२ डिग्री जति। बान्ता भएको छैन।', en:'Around 102°F. No vomiting.'},
+    {who:'result'}
+  ];
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  const add = html => { const d = document.createElement('div'); d.innerHTML = html; const el = d.firstElementChild; box.appendChild(el); requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('in'))); return el; };
+  async function play(){
+    while (true){
+      box.innerHTML = '';
+      for (const m of script){
+        if (m.who === 'user'){ await sleep(700); add(`<div class="msg user"><span class="np">${m.np}</span><span class="en">${m.en}</span></div>`); }
+        else {
+          await sleep(600);
+          const t = add('<div class="msg bot"><span class="typing"><span></span><span></span><span></span></span></div>');
+          await sleep(1300); t.remove();
+          if (m.who === 'bot') add(`<div class="msg bot"><span class="np">${m.np}</span><span class="en">${m.en}</span></div>`);
+          else add(`<div class="msg result"><div class="row"><span>Urgency</span><span>See a doctor today</span></div><div class="meter"><i class="on"></i><i class="on"></i><i></i><i></i></div><p>Book a consult today. Go to emergency if you develop a stiff neck, confusion or a rash.</p></div>`);
+        }
+      }
+      if (reduce) return;
+      await sleep(6000);
+    }
+  }
+  play();
+
+  /* tabs */
+  const tabs = [...document.querySelectorAll('[role="tab"]')];
+  const select = i => tabs.forEach((t, j) => {
+    const on = i === j, p = document.getElementById(t.getAttribute('aria-controls'));
+    t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1;
+    if (on){ p.hidden = false; requestAnimationFrame(() => p.classList.add('active')); }
+    else { p.classList.remove('active'); p.hidden = true; }
+  });
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => select(i));
+    t.addEventListener('keydown', e => {
+      const k = {ArrowDown:1, ArrowRight:1, ArrowUp:-1, ArrowLeft:-1}[e.key];
+      if (k){ e.preventDefault(); const n = (i + k + tabs.length) % tabs.length; select(n); tabs[n].focus(); }
+    });
+  });
+
+  /* accordion */
+  document.querySelectorAll('.qa > button').forEach(b => b.addEventListener('click', () => {
+    const qa = b.parentElement, open = !qa.classList.contains('open');
+    document.querySelectorAll('.qa').forEach(q => { q.classList.remove('open'); q.firstElementChild.setAttribute('aria-expanded', false); });
+    if (open){ qa.classList.add('open'); b.setAttribute('aria-expanded', true); }
+  }));
+
+  /* form */
+  const chips = [...document.querySelectorAll('.chip')];
+  chips.forEach(c => c.addEventListener('click', () => chips.forEach(x => x.setAttribute('aria-pressed', x === c))));
+  const form = document.getElementById('form'), done = document.getElementById('done'), submit = document.getElementById('submit');
+  const name = document.getElementById('name'), email = document.getElementById('email');
+  [name, email].forEach(inp => inp.addEventListener('input', () => inp.parentElement.classList.remove('err')));
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const okName = name.value.trim().length > 1, okEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim());
+    document.getElementById('f-name').classList.toggle('err', !okName);
+    document.getElementById('f-email').classList.toggle('err', !okEmail);
+    if (!okName || !okEmail){ (okName ? email : name).focus(); return; }
+    const entry = {name:name.value.trim(), email:email.value.trim(), role:chips.find(c => c.getAttribute('aria-pressed') === 'true').textContent, at:new Date().toISOString()};
+    submit.disabled = true; submit.firstChild.textContent = 'Sending… ';
+    // TODO: replace with your endpoint, e.g. fetch('https://formspree.io/f/XXXX', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(entry)})
+    try { const list = JSON.parse(localStorage.getItem('tph-waitlist') || '[]'); list.push(entry); localStorage.setItem('tph-waitlist', JSON.stringify(list)); } catch(_){}
+    await sleep(700);
+    document.getElementById('doneName').textContent = entry.name.split(' ')[0];
+    done.classList.add('show');
+  });
+  document.getElementById('reset').addEventListener('click', () => {
+    form.reset(); chips.forEach((x, i) => x.setAttribute('aria-pressed', i === 0));
+    submit.disabled = false; submit.firstChild.textContent = 'Request access ';
+    done.classList.remove('show'); name.focus();
+  });
+})();
+</script>
+</body>
+</html>
